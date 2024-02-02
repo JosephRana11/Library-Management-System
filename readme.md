@@ -1,6 +1,6 @@
 <h1 align="center" id="title">Library Managment System (Backend)</h1>
 
-<p id="description">This is a Backend Library Rest API Project made using Django and Django Rest Framework.</p>
+<p id="description">This is a Backend Library Rest API Project made using Django , Django Rest Framework and Authentication tokens.</p>
 
   
   
