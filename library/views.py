@@ -91,13 +91,12 @@ class BookDetailAPI(views.APIView):
       return Response({"Message":"ACCESS DENIED"} , status = status.HTTP_401_UNAUTHORIZED)
 
 class BorrowedBookAPI(generics.ListAPIView):
-  '''
-
+  """
    GET
     
     Returns List of all actively borrowed Books .
 
-  '''
+  """
   queryset = BorrowedBook.objects.filter(returned=False)
   serializer_class = BorrowedBookSerializer
 
@@ -105,12 +104,19 @@ class BorrowedBookAPI(generics.ListAPIView):
 @authentication_classes([authentication.TokenAuthentication])
 @permission_classes([permissions.IsAuthenticated])
 def BorrowBookView(request, book_id):
+    """
+     POST 
+      
+      Creates BorrowedBook Model instance using request.uesr and book_id
 
+    """
+    #checking if the book with the book id exists
     try:
         book = Book.objects.get(id=book_id)
     except Book.DoesNotExist:
         return Response({"Message": "Book does not exist"}, status=status.HTTP_404_NOT_FOUND)
-
+    
+    #checking if book is already borrowed
     try:
         borrowed_book = BorrowedBook.objects.get(book=book, returned=False)
         return Response({"message": "Book is already borrowed"}, status=status.HTTP_400_BAD_REQUEST)
@@ -118,3 +124,30 @@ def BorrowBookView(request, book_id):
         instance = BorrowedBook(borrower=request.user, book=book)
         instance.save()
         return Response({"message": "Book borrowed successfully"}, status=status.HTTP_200_OK)
+
+@api_view(['POST',])
+@authentication_classes([authentication.TokenAuthentication])
+@permission_classes([permissions.IsAuthenticated])
+def ReturnBookView(request , book_id):
+    """
+     POST
+
+       Returns BorrowedBook sets BorrowedBook.returned to True
+
+     """
+  #checking if the book with the book id exists
+    try:
+        book = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return Response({"Message": "Book does not exist"}, status=status.HTTP_404_NOT_FOUND)
+  
+  #check if user currenty owns the book , if user owns the book set returned to True else return error
+    try:
+      borrowed_book = BorrowedBook.objects.get(borrower = request.user , book = book , returned = False)
+      borrowed_book.returned = True
+      borrowed_book.save()
+      return Response({"Message":"Book Sucessfully Returned"} , status = status.HTTP_200_OK)
+    except BorrowedBook.DoesNotExist:
+      return Response({"Message":"You do not currently borrow the Book"} , status = status.HTTP_400_BAD_REQUEST)
+
+    
