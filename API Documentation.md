@@ -1,5 +1,11 @@
 ﻿# REST API Documentation for the Library Backend System
 
+<p>* To access admin/staff account use username "admin" and password "admin". You can also create a new staff/admin account by running the following command in the terminal.</p>
+
+```
+python manage.py createsuperuser
+```
+
 ## User Endpoint APIs
 
 ### Endpoint: /api/register/
