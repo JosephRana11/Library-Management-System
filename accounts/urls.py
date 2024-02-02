@@ -9,5 +9,5 @@ router.register(r'users' , views.UserViewAPI)
 
 urlpatterns = [
     path('' , include(router.urls)),
-    path('register' , views.UserRegisterAPI.as_view())
+    path('register/' , views.UserRegisterAPI.as_view())
 ]

@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class User(AbstractUser):
   ''' Using Custom User Model'''
-  membership_date = models.DateField(auto_now_add=False , default=timezone.now)
+  membership_date = models.DateField(auto_now_add= True)
   
   def __str__(self):
       return self.username

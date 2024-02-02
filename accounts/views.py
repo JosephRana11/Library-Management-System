@@ -11,15 +11,21 @@ class UserViewAPI(ReadOnlyModelViewSet):
   """
   GET
 
-   Returns List of Users for api/users/ endpoint.
+   1) Returns List of Users for api/users/ endpoint.
 
-   Returns details of a Single User for api/users/userid/ endpoint.
+   2) Returns details of a Single User for api/users/userid/ endpoint.
 
   """
   queryset = User.objects.all()
   serializer_class = UserViewSerializer
 
 class UserRegisterAPI(generics.CreateAPIView):
+  """
+  POST 
+   
+   1) Creates New User Account for api/register/ end point.
+
+  """
   permission_classes = [permissions.AllowAny,]
   serializer_class = UserRegisterSerializer
   
