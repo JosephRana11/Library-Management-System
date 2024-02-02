@@ -1,3 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
-# Create your models here.
+class User(AbstractUser):
+  ''' Using Custom User Model'''
+  membership_date = models.DateField(auto_now_add=False , default=timezone.now)
+  
+  def __str__(self):
+      return self.username
+  
+  class Meta:
+    ordering = ["-date_joined"]
+  
