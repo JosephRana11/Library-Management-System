@@ -10,7 +10,7 @@ Here're some of the project's best features:
 
 *   Implementation of Auth Token for user authentication/authorization.
 *   CRUD Operations using REST APIs.
-*   Code Comments and docstrings
+*   API Documentation/ Easy to Understand Code Comments
 
 <h2>🛠️ Installation Steps:</h2>
 
