@@ -30,4 +30,6 @@ class BookDetailAPI(views.APIView):
     if book is not None:
       serializer = BookSerializer(book)
       return Response(serializer.data , status = status.HTTP_200_OK)
+    else:
+      return Response({"message":"Book does not exist"} , status = status.HTTP_204_NO_CONTENT)
     
