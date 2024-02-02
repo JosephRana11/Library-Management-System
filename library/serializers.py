@@ -46,3 +46,31 @@ class BookSerializer(serializers.ModelSerializer):
             detail_serializer.update(detail_instance, details_data)
 
         return instance
+
+class BorrowedBookSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = BorrowedBook
+    fields = ['id', 'borrower', 'book', 'borrowed_date', 'returned']
+  
+  #overriding super class representation to include nested data
+  def to_representation(self , instance):
+    representation = super().to_representation(instance)
+     
+    #adding nested repreesentatin for borrower user
+    representation['borrower'] = {
+      'user_id': instance.borrower.id,
+      'username' : instance.borrower.username
+    }
+    
+    #adding nested representation for borrowed book
+    representation['book'] = {
+      'book_id' : instance.book.id,
+      'title' : instance.book.title
+    }
+
+    return representation
+
+class BorrowBookSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = BorrowedBook
+    fields = ['borrower', 'book', 'borrowed_date', 'returned']

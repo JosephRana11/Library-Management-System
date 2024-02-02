@@ -9,9 +9,10 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import views
+from rest_framework.decorators import api_view , permission_classes , permission_classes
 
 from accounts.models import User 
-from .serializers import BookListSerializer , BookSerializer
+from .serializers import BookListSerializer , BookSerializer , BorrowedBookSerializer , BorrowBookSerializer
 from .models import Book , BookDetail , BorrowedBook
 
 class BooksListAPI(generics.ListCreateAPIView):
@@ -41,6 +42,11 @@ class BookDetailAPI(views.APIView):
     
     *Requires Staff authentication - Session Token
      Updates Both Book Model and BookDetail Model using Nested Serialization.
+
+   DELETE
+    
+    *Requires Staff authentication - Session Token
+     DELETES BOOK Model and its Detail
 
   """
   authentication_classes = [authentication.TokenAuthentication]
@@ -83,3 +89,32 @@ class BookDetailAPI(views.APIView):
       return Response({"message":"Book Removed Sucessfully"} , status = status.HTTP_200_OK)
     else:
       return Response({"Message":"ACCESS DENIED"} , status = status.HTTP_401_UNAUTHORIZED)
+
+class BorrowedBookAPI(generics.ListAPIView):
+  '''
+
+   GET
+    
+    Returns List of all actively borrowed Books .
+
+  '''
+  queryset = BorrowedBook.objects.filter(returned=False)
+  serializer_class = BorrowedBookSerializer
+
+@api_view(['POST',])
+@authentication_classes([authentication.TokenAuthentication])
+@permission_classes([permissions.IsAuthenticated])
+def BorrowBookView(request, book_id):
+
+    try:
+        book = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return Response({"Message": "Book does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+    try:
+        borrowed_book = BorrowedBook.objects.get(book=book, returned=False)
+        return Response({"message": "Book is already borrowed"}, status=status.HTTP_400_BAD_REQUEST)
+    except BorrowedBook.DoesNotExist:
+        instance = BorrowedBook(borrower=request.user, book=book)
+        instance.save()
+        return Response({"message": "Book borrowed successfully"}, status=status.HTTP_200_OK)
