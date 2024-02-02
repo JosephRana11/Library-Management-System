@@ -45,4 +45,5 @@ Technologies used in the project:
 *   python
 *   django
 *   django rest framework
-*   sqllite3
+*   Auth Tokens
+*   sql
