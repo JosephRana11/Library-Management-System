@@ -1,12 +1,16 @@
 from django.shortcuts import render
 
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework import generics
+from rest_framework import permissions
+from rest_framework.decorators import authentication_classes , permission_classes , api_view
+from rest_framework import authentication
+from rest_framework import permissions
+from rest_framework.response import Response
+from rest_framework import status
 
 from .models import User
 from .serializers import UserViewSerializer , UserRegisterSerializer
-from rest_framework import generics
-from rest_framework import permissions
-
 class UserViewAPI(ReadOnlyModelViewSet):
   """
   GET
@@ -29,3 +33,11 @@ class UserRegisterAPI(generics.CreateAPIView):
   permission_classes = [permissions.AllowAny,]
   serializer_class = UserRegisterSerializer
   
+@api_view(["POST",])
+@authentication_classes([authentication.TokenAuthentication,])
+@permission_classes([permissions.IsAuthenticated])
+def LogoutAPI(request):
+  if request.method == "POST":
+    request.user.auth_token.delete()
+    return Response({"message": "User logged out sucessfully"} , status = status.HTTP_200_OK)
+    
