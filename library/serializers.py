@@ -33,3 +33,16 @@ class BookSerializer(serializers.ModelSerializer):
   class Meta:
     model = Book 
     fields = '__all__'
+  
+
+  #overriding the super class update method for nested update for Book and BookDetails
+  def update(self, instance, validated_data):
+        details_data = validated_data.pop('details', None)
+        instance = super().update(instance, validated_data)
+
+        if details_data:
+            detail_serializer = self.fields['details']
+            detail_instance = instance.details
+            detail_serializer.update(detail_instance, details_data)
+
+        return instance

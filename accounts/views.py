@@ -44,7 +44,7 @@ def LogoutAPI(request):
   POST
    
     Deletes Authentication Token for api/logout/ endpoint.
-
+   
   """
   if request.method == "POST":
     try : 
