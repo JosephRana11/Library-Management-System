@@ -35,6 +35,7 @@ pip install djangorestframework
 ```
 python manage.py runserver
 ```
+<p>6. Now the server is up and running, Open up a Http command line request tool such as curl or Postman. Personally, I have used Postman for the demonstration of different endpoints in the API Doc.</p>
 
   
   
