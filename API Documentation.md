@@ -1,6 +1,8 @@
 ﻿# REST API Documentation for the Library Backend System
 
-<p>* To access admin/staff account use username "admin" and password "admin". You can also create a new staff/admin account by running the following command in the terminal.</p>
+<p>Update/Delete features are protected api routes only acessiable to staff/admin accounts.
+
+   * To access admin/staff account use username "admin" and password "admin". You can also create a new staff/admin account by running the following command in the terminal.</p>
 
 ```
 python manage.py createsuperuser
@@ -74,7 +76,7 @@ python manage.py createsuperuser
 - Headers: auth token required
 - Operation: Stores Borrowed Book record for request. User and book with corresponding book_id
 
-### Endpoint: /api/borrow/book_id/
+### Endpoint: /api/return/book_id/
 ![Return Book](./images/return.png)
 - Type: POST request
 - Headers: auth token required
