@@ -1,6 +1,9 @@
 ﻿# REST API Documentation for the Library Backend System
 
-<p>Update/Delete features are protected api routes only acessiable to staff/admin accounts.
+# Important Notes
+<p> Post Requests must contain Auth token  in the request header.</p>
+
+<p>Update/Delete api endpoints are protected api routes only acessiable to users with staff/admin accounts.
 
    * To access admin/staff account use username "admin" and password "admin". You can also create a new staff/admin account by running the following command in the terminal.</p>
 
@@ -11,7 +14,7 @@ python manage.py createsuperuser
 ## User Endpoint APIs
 
 ### Endpoint: /api/register/
-![Register User](./images/register-user.png)
+![Register User](./images/register.png)
 - Type: Post request
 - Body: username, first_name, last_name, password, password2, email
 - Operation: Creates New User Account
@@ -35,7 +38,7 @@ python manage.py createsuperuser
 ### Endpoint: /api/logout/
 ![Logout](./images/logout.png)
 - Type: POST request
-- Headers: auth_token
+- Headers: *auth_token required
 - Operation: Deletes user auth_token
 
 ## Book Endpoint APIs
@@ -52,14 +55,14 @@ python manage.py createsuperuser
 
 - Type: PATCH request
 ![Update Book](./images/books-patch.png)
-- Headers: auth token required
+- Headers: *auth token required
 - Body: Updated Body fields
 - Permission: *Request user must be staff/admin
 - Operation: Updates Book Data (works for both book model and book details model)
 
 - Type: DELETE request
 ![Delete Book](./images/books-delete.png)
-- Headers: auth token required
+- Headers: *auth token required
 - Permission: *Request user must be staff/admin
 - Operation: Deletes Book and Book Detail Data
 
@@ -73,11 +76,11 @@ python manage.py createsuperuser
 ### Endpoint: /api/borrow/book_id/
 ![Borrow Book](./images/borrow.png)
 - Type: POST request
-- Headers: auth token required
+- Headers: *auth token required
 - Operation: Stores Borrowed Book record for request. User and book with corresponding book_id
 
 ### Endpoint: /api/return/book_id/
 ![Return Book](./images/return.png)
 - Type: POST request
-- Headers: auth token required
+- Headers: *auth token required
 - Operation: Updates Borrowed Book record for request. User and book with corresponding book_id
