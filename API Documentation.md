@@ -77,10 +77,10 @@ python manage.py createsuperuser
 ![Borrow Book](./images/borrow.png)
 - Type: POST request
 - Headers: *auth token required
-- Operation: Stores Borrowed Book record for request. User and book with corresponding book_id
+- Operation: Stores Borrowed Book record for request User and book with corresponding book_id.
 
 ### Endpoint: /api/return/book_id/
 ![Return Book](./images/return.png)
 - Type: POST request
 - Headers: *auth token required
-- Operation: Updates Borrowed Book record for request. User and book with corresponding book_id
+- Operation: Updates Borrowed Book record for request User and book with corresponding book_id.
